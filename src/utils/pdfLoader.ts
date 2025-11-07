@@ -21,7 +21,9 @@ pdfjsLib.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.j
  * @returns PDF document proxy
  */
 export async function loadPDFDocument(data: ArrayBuffer) {
-  const loadingTask = pdfjsLib.getDocument({ data });
+  // PDF.js requires a TypedArray (Uint8Array), not an ArrayBuffer
+  const uint8Array = new Uint8Array(data);
+  const loadingTask = pdfjsLib.getDocument({ data: uint8Array });
   return await loadingTask.promise;
 }
 
